@@ -1,0 +1,35 @@
+class DriverAccount:
+    def __init__(self, name, vehicle_plate):
+        self.name = name
+        self.vehicle_plate = vehicle_plate
+        self._rating = 0.0
+        self._total_trips = 0
+
+    def add_rating(self, new_rating):
+        if new_rating < 1.0 or new_rating > 5.0:
+            raise ValueError("Invalid rating!")
+
+        total_rating = self._rating * self._total_trips
+        self._total_trips += 1
+        self._rating = (total_rating + new_rating) / self._total_trips
+
+    def get_rating_info(self):
+        return (
+            f"Driver: {self.name}, Vehicle Plate: {self.vehicle_plate}, "
+            f"Rating: {self._rating:.2f}, Total Trips: {self._total_trips}"
+        )
+
+
+# User input
+name = input("Enter driver name: ")
+vehicle_plate = input("Enter vehicle plate: ")
+
+driver = DriverAccount(name, vehicle_plate)
+
+trips = int(input("Enter number of trips to rate: "))
+
+for i in range(trips):
+    rating = float(input(f"Enter rating for trip {i + 1} (1-5): "))
+    driver.add_rating(rating)
+
+print("\n" + driver.get_rating_info())
